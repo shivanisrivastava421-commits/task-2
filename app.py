@@ -3,15 +3,16 @@ import pickle
 from flask import Flask, render_template, request
 import sys
 import os
+sys.path.insert(0, os.path.dirname(__file__))
 
-
-
-# 💥 New/Corrected Import
-from naive_bayes import NaiveBayes
-
-# Initialize Flask application
-app = Flask(__name__)
-# ... rest of your code ...
+try:
+    # Attempt to import the custom NaiveBayes class
+    from naive_bayes import NaiveBayes
+    print("✅ DEBUG: Successfully found and imported NaiveBayes class definition.") # <--- ADD THIS LINE
+except ImportError:
+    print("FATAL ERROR: Could not import NaiveBayes class. Ensure naive_bayes.py is in the root directory.")
+    
+sys.path.pop(0)
 # Initialize Flask application
 app = Flask(__name__)
 
@@ -102,5 +103,6 @@ def predict():
 if __name__ == '__main__':
     # *** CRITICAL: Running on Port 8000 to bypass the conflict on Port 5000 ***
     app.run(debug=True, port=8000)
+
 
 
